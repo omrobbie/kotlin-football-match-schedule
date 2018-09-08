@@ -1,4 +1,4 @@
-package com.omrobbie.footballmatchshedule
+package com.omrobbie.footballmatchschedule
 
 import org.junit.Test
 

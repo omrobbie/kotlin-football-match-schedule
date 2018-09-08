@@ -1,7 +1,8 @@
-package com.omrobbie.footballmatchshedule
+package com.omrobbie.footballmatchschedule
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.omrobbie.footballmatchschedule.R
 
 class MainActivity : AppCompatActivity() {
 

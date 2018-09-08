@@ -1,4 +1,4 @@
-package com.omrobbie.footballmatchshedule
+package com.omrobbie.footballmatchschedule
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
