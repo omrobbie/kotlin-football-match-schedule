@@ -13,6 +13,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // The Sports DB API Configuration
+        buildConfigField "String", "BASE_URL", "\"https://www.thesportsdb.com/api/v1/json/\""
+        buildConfigField "String", "TSDB_API_KEY", "\"1\""
     }
     buildTypes {
         release {
