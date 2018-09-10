@@ -1,13 +1,23 @@
 package com.omrobbie.footballmatchschedule
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.omrobbie.footballmatchschedule.R
+import android.support.v7.app.AppCompatActivity
+import org.jetbrains.anko.linearLayout
+import org.jetbrains.anko.textView
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        setupLayout()
+    }
+
+    fun setupLayout() {
+        linearLayout {
+            textView {
+                text = "Hello World!"
+            }
+        }
     }
 }
