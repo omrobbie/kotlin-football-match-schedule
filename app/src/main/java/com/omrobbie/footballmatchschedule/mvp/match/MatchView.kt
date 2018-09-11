@@ -1,8 +1,8 @@
-package com.omrobbie.footballmatchschedule.mvp.schedule
+package com.omrobbie.footballmatchschedule.mvp.match
 
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 
-interface ScheduleView {
+interface MatchView {
 
     fun showLoading()
     fun hideLoading()

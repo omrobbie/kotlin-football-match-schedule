@@ -1,4 +1,4 @@
-package com.omrobbie.footballmatchschedule.mvp.schedule
+package com.omrobbie.footballmatchschedule.mvp.match
 
 import com.google.gson.Gson
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
@@ -7,7 +7,7 @@ import com.omrobbie.footballmatchschedule.network.TheSportsDbApi
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class SchedulePresenter(val view: ScheduleView) {
+class MatchPresenter(val view: MatchView) {
 
     val apiRepository = ApiRepository()
     val gson = Gson()
@@ -20,9 +20,6 @@ class SchedulePresenter(val view: ScheduleView) {
                     .doRequest(TheSportsDbApi.getLeagueAll()),
                     LeagueResponse::class.java
             )
-
-
-            print(data)
 
             uiThread {
                 view.hideLoading()

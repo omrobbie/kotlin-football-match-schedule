@@ -1,11 +1,8 @@
-package com.omrobbie.footballmatchschedule.mvp.schedule
+package com.omrobbie.footballmatchschedule.mvp.match
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.omrobbie.footballmatchschedule.R
@@ -14,17 +11,14 @@ import com.omrobbie.footballmatchschedule.model.LeaguesItem
 import com.omrobbie.footballmatchschedule.utils.invisible
 import com.omrobbie.footballmatchschedule.utils.visible
 import org.jetbrains.anko.*
-import org.jetbrains.anko.design._BottomNavigationView
 import org.jetbrains.anko.design.bottomNavigationView
 
-class ScheduleActivity : AppCompatActivity(), ScheduleView {
+class MatchActivity : AppCompatActivity(), MatchView {
 
-    lateinit var presenter: SchedulePresenter
+    lateinit var presenter: MatchPresenter
 
     lateinit var spinner: Spinner
     lateinit var progressBar: ProgressBar
-
-    var leagues: MutableList<LeaguesItem> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +63,6 @@ class ScheduleActivity : AppCompatActivity(), ScheduleView {
             }
 
             relativeLayout {
-                lparams(matchParent, matchParent)
-
                 progressBar = progressBar {
                 }.lparams {
                     centerInParent()
@@ -97,13 +89,12 @@ class ScheduleActivity : AppCompatActivity(), ScheduleView {
                 }.lparams(matchParent, wrapContent) {
                     alignParentBottom()
                 }
-            }
-
+            }.lparams(matchParent, matchParent)
         }
     }
 
     fun setupEnv() {
-        presenter = SchedulePresenter(this)
+        presenter = MatchPresenter(this)
 
         presenter.getLeagueAll()
     }
