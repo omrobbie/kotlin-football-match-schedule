@@ -2,16 +2,20 @@ package com.omrobbie.footballmatchschedule.mvp.schedule
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
+import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import com.omrobbie.footballmatchschedule.R
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.model.LeaguesItem
 import com.omrobbie.footballmatchschedule.utils.invisible
 import com.omrobbie.footballmatchschedule.utils.visible
 import org.jetbrains.anko.*
+import org.jetbrains.anko.design._BottomNavigationView
+import org.jetbrains.anko.design.bottomNavigationView
 
 class ScheduleActivity : AppCompatActivity(), ScheduleView {
 
@@ -71,7 +75,30 @@ class ScheduleActivity : AppCompatActivity(), ScheduleView {
                 }.lparams {
                     centerInParent()
                 }
+
+                bottomNavigationView {
+                    backgroundColor = Color.WHITE
+
+                    menu.apply {
+                        add("Prev. Match")
+                                .setIcon(R.drawable.ic_trophy)
+                                .setOnMenuItemClickListener {
+                                    toast("prev")
+                                    false
+                                }
+
+                        add("Next Match")
+                                .setIcon(R.drawable.ic_event)
+                                .setOnMenuItemClickListener {
+                                    toast("next")
+                                    false
+                                }
+                    }
+                }.lparams(matchParent, wrapContent) {
+                    alignParentBottom()
+                }
             }
+
         }
     }
 
