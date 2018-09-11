@@ -2,8 +2,8 @@ package com.omrobbie.footballmatchschedule.model
 
 import com.google.gson.annotations.SerializedName
 
-class LeagueResponse {
+class EventResponse {
 
-    @SerializedName("leagues")
-    var leagues: List<LeaguesItem>? = null
+    @SerializedName("events")
+    var events: List<EventsItem>? = null
 }

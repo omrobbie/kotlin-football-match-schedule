@@ -3,6 +3,8 @@ package com.omrobbie.footballmatchschedule.mvp.match
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.omrobbie.footballmatchschedule.R
@@ -12,6 +14,7 @@ import com.omrobbie.footballmatchschedule.utils.invisible
 import com.omrobbie.footballmatchschedule.utils.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.bottomNavigationView
+import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class MatchActivity : AppCompatActivity(), MatchView {
 
@@ -19,6 +22,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
     lateinit var spinner: Spinner
     lateinit var progressBar: ProgressBar
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +33,12 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
     override fun showLoading() {
         progressBar.visible()
+        recyclerView.invisible()
     }
 
     override fun hideLoading() {
         progressBar.invisible()
+        recyclerView.visible()
     }
 
     override fun showLeagueList(data: LeagueResponse) {
@@ -63,6 +69,10 @@ class MatchActivity : AppCompatActivity(), MatchView {
             }
 
             relativeLayout {
+                recyclerView = recyclerView {
+                    layoutManager = LinearLayoutManager(ctx)
+                }.lparams(matchParent, matchParent)
+
                 progressBar = progressBar {
                 }.lparams {
                     centerInParent()
