@@ -1,5 +1,6 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
+import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 
 interface MatchView {
@@ -7,4 +8,5 @@ interface MatchView {
     fun showLoading()
     fun hideLoading()
     fun showLeagueList(data: LeagueResponse)
+    fun showEventListPrev(data: List<EventsItem>)
 }

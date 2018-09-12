@@ -38,7 +38,6 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
         setupLayout()
         setupEnv()
-        loadDummy()
     }
 
     override fun showLoading() {
@@ -59,9 +58,16 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val item = spinner.selectedItem as LeaguesItem
-                toast(item.idLeague.toString())
+                presenter.getEventsPrev(item.idLeague.toString())
             }
         }
+    }
+
+    override fun showEventListPrev(data: List<EventsItem>) {
+        events.clear()
+        events.addAll(data)
+        adapter.notifyDataSetChanged()
+        recyclerView.scrollToPosition(0)
     }
 
     fun setupLayout() {
@@ -126,19 +132,5 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
         presenter.getLeagueAll()
         recyclerView.adapter = adapter
-    }
-
-    fun loadDummy() {
-        for (i in 1..9) {
-            val item = EventsItem()
-            item.dateEvent = "2018-08-0${i}"
-            item.strHomeTeam = "Cardiff"
-            item.strAwayTeam = "Arsenal"
-            item.intHomeScore = "2"
-            item.intAwayScore = "3"
-            item.strEvent = "Cardiff vs Arsenal"
-            events.add(item)
-        }
-        adapter.notifyDataSetChanged()
     }
 }

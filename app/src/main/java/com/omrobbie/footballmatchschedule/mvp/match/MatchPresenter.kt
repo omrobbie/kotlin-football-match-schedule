@@ -1,6 +1,7 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
 import com.google.gson.Gson
+import com.omrobbie.footballmatchschedule.model.EventResponse
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.network.ApiRepository
 import com.omrobbie.footballmatchschedule.network.TheSportsDbApi
@@ -24,6 +25,22 @@ class MatchPresenter(val view: MatchView) {
             uiThread {
                 view.hideLoading()
                 view.showLeagueList(data)
+            }
+        }
+    }
+
+    fun getEventsPrev(id: String) {
+        view.showLoading()
+
+        doAsync {
+            val data = gson.fromJson(apiRepository
+                    .doRequest(TheSportsDbApi.getLeaguePrev(id)),
+                    EventResponse::class.java
+            )
+
+            uiThread {
+                view.hideLoading()
+                view.showEventListPrev(data.events!!)
             }
         }
     }
