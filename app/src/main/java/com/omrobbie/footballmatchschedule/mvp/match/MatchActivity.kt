@@ -116,9 +116,13 @@ class MatchActivity : AppCompatActivity(), MatchView {
         }
     }
 
+    fun itemClicked(item: EventsItem) {
+        toast("item: ${item.strEvent}")
+    }
+
     fun setupEnv() {
         presenter = MatchPresenter(this)
-        adapter = MatchAdapter(events)
+        adapter = MatchAdapter(events, { item: EventsItem -> itemClicked(item) })
 
         presenter.getLeagueAll()
         recyclerView.adapter = adapter
@@ -132,6 +136,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
             item.strAwayTeam = "Arsenal"
             item.intHomeScore = "2"
             item.intAwayScore = "3"
+            item.strEvent = "Cardiff vs Arsenal"
             events.add(item)
         }
         adapter.notifyDataSetChanged()

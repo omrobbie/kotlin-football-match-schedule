@@ -13,13 +13,13 @@ import com.omrobbie.footballmatchschedule.R
 import com.omrobbie.footballmatchschedule.model.EventsItem
 import org.jetbrains.anko.*
 
-class MatchAdapter(val items: List<EventsItem>) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
+class MatchAdapter(val items: List<EventsItem>, val clickListener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ItemUI().createView(AnkoContext.create(parent.context, parent)))
 
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], clickListener)
     }
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -30,12 +30,14 @@ class MatchAdapter(val items: List<EventsItem>) : RecyclerView.Adapter<MatchAdap
         val match_away_team: TextView = view.findViewById(ID_AWAY_TEAM)
         val match_away_score: TextView = view.findViewById(ID_AWAY_SCORE)
 
-        fun bind(item: EventsItem) {
+        fun bind(item: EventsItem, clickListener: (EventsItem) -> Unit) {
             match_date.text = item.dateEvent
             match_home_team.text = item.strHomeTeam
             match_home_score.text = item.intHomeScore
             match_away_team.text = item.strAwayTeam
             match_away_score.text = item.intAwayScore
+
+            itemView.setOnClickListener { clickListener(item) }
         }
     }
 
