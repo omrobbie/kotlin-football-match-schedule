@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.omrobbie.footballmatchschedule.R
+import com.omrobbie.footballmatchschedule.adapter.MatchAdapter
+import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.model.LeaguesItem
 import com.omrobbie.footballmatchschedule.utils.invisible
@@ -19,16 +21,24 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 class MatchActivity : AppCompatActivity(), MatchView {
 
     lateinit var presenter: MatchPresenter
+    lateinit var adapter: MatchAdapter
 
     lateinit var spinner: Spinner
     lateinit var progressBar: ProgressBar
     lateinit var recyclerView: RecyclerView
+
+    var events: MutableList<EventsItem> = mutableListOf()
+
+    companion object {
+        val ID_BNV = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setupLayout()
         setupEnv()
+        loadDummy()
     }
 
     override fun showLoading() {
@@ -71,7 +81,9 @@ class MatchActivity : AppCompatActivity(), MatchView {
             relativeLayout {
                 recyclerView = recyclerView {
                     layoutManager = LinearLayoutManager(ctx)
-                }.lparams(matchParent, matchParent)
+                }.lparams(matchParent, matchParent) {
+                    topOf(ID_BNV)
+                }
 
                 progressBar = progressBar {
                 }.lparams {
@@ -79,6 +91,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                 }
 
                 bottomNavigationView {
+                    id = ID_BNV
                     backgroundColor = Color.WHITE
 
                     menu.apply {
@@ -105,7 +118,22 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
     fun setupEnv() {
         presenter = MatchPresenter(this)
+        adapter = MatchAdapter(events)
 
         presenter.getLeagueAll()
+        recyclerView.adapter = adapter
+    }
+
+    fun loadDummy() {
+        for (i in 1..9) {
+            val item = EventsItem()
+            item.dateEvent = "2018-08-0${i}"
+            item.strHomeTeam = "Cardiff"
+            item.strAwayTeam = "Arsenal"
+            item.intHomeScore = "2"
+            item.intAwayScore = "3"
+            events.add(item)
+        }
+        adapter.notifyDataSetChanged()
     }
 }
