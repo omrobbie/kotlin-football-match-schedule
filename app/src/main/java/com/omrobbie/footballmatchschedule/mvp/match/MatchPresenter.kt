@@ -40,7 +40,12 @@ class MatchPresenter(val view: MatchView) {
 
             uiThread {
                 view.hideLoading()
-                view.showEventListPrev(data.events!!)
+
+                try {
+                    view.showEventListPrev(data.events!!)
+                } catch (e: NullPointerException) {
+                    view.emptyData()
+                }
             }
         }
     }

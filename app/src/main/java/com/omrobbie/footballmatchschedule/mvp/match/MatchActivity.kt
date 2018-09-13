@@ -1,10 +1,12 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.View
 import android.widget.*
 import com.omrobbie.footballmatchschedule.R
@@ -26,6 +28,9 @@ class MatchActivity : AppCompatActivity(), MatchView {
     lateinit var spinner: Spinner
     lateinit var progressBar: ProgressBar
     lateinit var recyclerView: RecyclerView
+    lateinit var emptyData: LinearLayout
+
+    lateinit var league: LeaguesItem
 
     var events: MutableList<EventsItem> = mutableListOf()
 
@@ -43,11 +48,18 @@ class MatchActivity : AppCompatActivity(), MatchView {
     override fun showLoading() {
         progressBar.visible()
         recyclerView.invisible()
+        emptyData.invisible()
     }
 
     override fun hideLoading() {
         progressBar.invisible()
         recyclerView.visible()
+        emptyData.invisible()
+    }
+
+    override fun emptyData() {
+        recyclerView.invisible()
+        emptyData.visible()
     }
 
     override fun showLeagueList(data: LeagueResponse) {
@@ -57,8 +69,8 @@ class MatchActivity : AppCompatActivity(), MatchView {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val item = spinner.selectedItem as LeaguesItem
-                presenter.getEventsPrev(item.idLeague.toString())
+                league = spinner.selectedItem as LeaguesItem
+                presenter.getEventsPrev(league.idLeague!!)
             }
         }
     }
@@ -85,6 +97,22 @@ class MatchActivity : AppCompatActivity(), MatchView {
             }
 
             relativeLayout {
+                emptyData = linearLayout {
+                    orientation = LinearLayout.VERTICAL
+
+                    imageView {
+                        setImageResource(R.drawable.ic_no_data)
+                    }
+
+                    textView {
+                        gravity = Gravity.CENTER
+                        padding = dip(8)
+                        text = "No Data Provided"
+                    }
+                }.lparams {
+                    centerInParent()
+                }
+
                 recyclerView = recyclerView {
                     layoutManager = LinearLayoutManager(ctx)
                 }.lparams(matchParent, matchParent) {
@@ -104,7 +132,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                         add("Prev. Match")
                                 .setIcon(R.drawable.ic_trophy)
                                 .setOnMenuItemClickListener {
-                                    toast("prev")
+                                    presenter.getEventsPrev(league.idLeague!!)
                                     false
                                 }
 
