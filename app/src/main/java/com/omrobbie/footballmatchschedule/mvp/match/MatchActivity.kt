@@ -1,7 +1,6 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -28,7 +27,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
     lateinit var spinner: Spinner
     lateinit var progressBar: ProgressBar
     lateinit var recyclerView: RecyclerView
-    lateinit var emptyData: LinearLayout
+    lateinit var emptyDataView: LinearLayout
 
     lateinit var league: LeaguesItem
 
@@ -48,18 +47,19 @@ class MatchActivity : AppCompatActivity(), MatchView {
     override fun showLoading() {
         progressBar.visible()
         recyclerView.invisible()
-        emptyData.invisible()
+        emptyDataView.invisible()
     }
 
     override fun hideLoading() {
         progressBar.invisible()
         recyclerView.visible()
-        emptyData.invisible()
+        emptyDataView.invisible()
     }
 
-    override fun emptyData() {
+    override fun showEmptyData() {
+        progressBar.invisible()
         recyclerView.invisible()
-        emptyData.visible()
+        emptyDataView.visible()
     }
 
     override fun showLeagueList(data: LeagueResponse) {
@@ -70,16 +70,25 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 league = spinner.selectedItem as LeaguesItem
-                presenter.getEventsPrev(league.idLeague!!)
+
+                when (presenter.match) {
+                    1 -> presenter.getEventsPrev(league.idLeague!!)
+                    2 -> presenter.getEventsNext(league.idLeague!!)
+                }
             }
         }
     }
 
     override fun showEventListPrev(data: List<EventsItem>) {
-        events.clear()
-        events.addAll(data)
-        adapter.notifyDataSetChanged()
-        recyclerView.scrollToPosition(0)
+        showEventListData(data)
+    }
+
+    override fun showEventListNext(data: List<EventsItem>) {
+        showEventListData(data)
+    }
+
+    fun itemClicked(item: EventsItem) {
+        toast("item: ${item.strEvent}")
     }
 
     fun setupLayout() {
@@ -97,7 +106,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
             }
 
             relativeLayout {
-                emptyData = linearLayout {
+                emptyDataView = linearLayout {
                     orientation = LinearLayout.VERTICAL
 
                     imageView {
@@ -139,7 +148,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                         add("Next Match")
                                 .setIcon(R.drawable.ic_event)
                                 .setOnMenuItemClickListener {
-                                    toast("next")
+                                    presenter.getEventsNext(league.idLeague!!)
                                     false
                                 }
                     }
@@ -150,15 +159,18 @@ class MatchActivity : AppCompatActivity(), MatchView {
         }
     }
 
-    fun itemClicked(item: EventsItem) {
-        toast("item: ${item.strEvent}")
-    }
-
     fun setupEnv() {
         presenter = MatchPresenter(this)
         adapter = MatchAdapter(events, { item: EventsItem -> itemClicked(item) })
 
         presenter.getLeagueAll()
         recyclerView.adapter = adapter
+    }
+
+    fun showEventListData(data: List<EventsItem>) {
+        events.clear()
+        events.addAll(data)
+        adapter.notifyDataSetChanged()
+        recyclerView.scrollToPosition(0)
     }
 }
