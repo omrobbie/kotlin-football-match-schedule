@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.omrobbie.footballmatchschedule.R
 import com.omrobbie.footballmatchschedule.model.EventsItem
+import com.omrobbie.footballmatchschedule.utils.DateTime
 import org.jetbrains.anko.*
 
 class MatchAdapter(val items: List<EventsItem>, val clickListener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
@@ -31,7 +32,7 @@ class MatchAdapter(val items: List<EventsItem>, val clickListener: (EventsItem) 
         val match_away_score: TextView = view.findViewById(ID_AWAY_SCORE)
 
         fun bind(item: EventsItem, clickListener: (EventsItem) -> Unit) {
-            match_date.text = item.dateEvent
+            match_date.text = DateTime.getLongDate(item.dateEvent!!)
             match_home_team.text = item.strHomeTeam
             match_home_score.text = item.intHomeScore
             match_away_team.text = item.strAwayTeam
