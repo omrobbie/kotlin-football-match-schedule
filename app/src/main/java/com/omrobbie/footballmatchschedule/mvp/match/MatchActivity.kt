@@ -13,6 +13,8 @@ import com.omrobbie.footballmatchschedule.adapter.MatchAdapter
 import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.model.LeaguesItem
+import com.omrobbie.footballmatchschedule.mvp.detail.DetailActivity
+import com.omrobbie.footballmatchschedule.mvp.detail.INTENT_DETAIL
 import com.omrobbie.footballmatchschedule.utils.invisible
 import com.omrobbie.footballmatchschedule.utils.visible
 import org.jetbrains.anko.*
@@ -88,7 +90,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
     }
 
     fun itemClicked(item: EventsItem) {
-        toast("item: ${item.strEvent}")
+        startActivity<DetailActivity>(INTENT_DETAIL to item)
     }
 
     fun setupLayout() {
