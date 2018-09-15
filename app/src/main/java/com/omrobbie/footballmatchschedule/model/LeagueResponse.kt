@@ -1,3 +1,3 @@
 package com.omrobbie.footballmatchschedule.model
 
-data class LeagueResponse(var leagues: List<LeaguesItem>?)
+data class LeagueResponse(val leagues: List<LeaguesItem>?)

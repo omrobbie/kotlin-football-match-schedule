@@ -18,4 +18,9 @@ object TheSportsDbApi {
         return "${BuildConfig.BASE_URL}${BuildConfig.TSDB_API_KEY}" +
                 "/eventsnextleague.php?id=${id}"
     }
+
+    fun getTeamDetails(id: String): String {
+        return "${BuildConfig.BASE_URL}${BuildConfig.TSDB_API_KEY}" +
+                "/lookupteam.php?id=${id}"
+    }
 }

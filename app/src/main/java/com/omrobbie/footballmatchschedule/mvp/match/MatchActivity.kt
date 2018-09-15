@@ -161,7 +161,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                 }.lparams(matchParent, wrapContent) {
                     alignParentBottom()
                 }
-            }.lparams(matchParent, matchParent)
+            }
         }
     }
 
