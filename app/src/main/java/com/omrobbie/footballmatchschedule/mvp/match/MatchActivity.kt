@@ -1,7 +1,9 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -35,9 +37,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
     var events: MutableList<EventsItem> = mutableListOf()
 
-    companion object {
-        val ID_BNV = 1
-    }
+    private val ID_BNV = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,6 +131,10 @@ class MatchActivity : AppCompatActivity(), MatchView {
                 }
 
                 progressBar = progressBar {
+                    indeterminateDrawable.setColorFilter(
+                            ContextCompat.getColor(ctx, R.color.colorPrimary),
+                            PorterDuff.Mode.SRC_IN
+                    )
                 }.lparams {
                     centerInParent()
                 }
