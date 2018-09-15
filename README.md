@@ -1,6 +1,11 @@
 # Football Match Schedule
 Ini adalah Submission 2: Aplikasi Football Match Schedule dari kursus online dicoding.com. Menampilkan data dari API The Sports DB.
 
+## Preview
+<img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview1.png" width=256/>&nbsp;
+<img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview2.png" width=256/>&nbsp;
+<img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview3.png" width=256/>&nbsp;
+
 ## Submission 2
 Anda sudah mempelajari bagaimana cara menampilkan data dari sebuah API. Agar bisa lanjut ke modul berikutnya, Anda harus mengirimkan proyek dengan beberapa kriteria yang sudah ditentukan.
 
