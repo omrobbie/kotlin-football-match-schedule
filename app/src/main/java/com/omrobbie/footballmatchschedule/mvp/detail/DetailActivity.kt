@@ -1,5 +1,6 @@
 package com.omrobbie.footballmatchschedule.mvp.detail
 
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
@@ -7,12 +8,14 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import com.omrobbie.footballmatchschedule.R
+import com.omrobbie.footballmatchschedule.R.id.mn_favorites
 import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.TeamsItem
 import com.omrobbie.footballmatchschedule.utils.DateTime
@@ -33,6 +36,9 @@ class DetailActivity : AppCompatActivity(), DetailView {
     lateinit var imgHomeBadge: ImageView
     lateinit var imgAwayBadge: ImageView
 
+    var menuFavorites: Menu? = null
+    var isFavorite: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,12 +48,26 @@ class DetailActivity : AppCompatActivity(), DetailView {
         setupEnv(item)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_favorites, menu)
+        menuFavorites = menu
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if (item?.itemId == android.R.id.home) {
-            finish()
-            true
-        } else {
-            return super.onOptionsItemSelected(item)
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+
+            mn_favorites -> {
+                isFavorite = !isFavorite
+                setFavorite()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -347,5 +367,13 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Match Detail"
+    }
+
+    fun setFavorite() {
+        if (isFavorite) {
+            menuFavorites?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites_yes)
+        } else {
+            menuFavorites?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites_no)
+        }
     }
 }
