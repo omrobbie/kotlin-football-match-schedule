@@ -157,6 +157,13 @@ class MatchActivity : AppCompatActivity(), MatchView {
                                     presenter.getEventsNext(league.idLeague!!)
                                     false
                                 }
+
+                        add("Favorites")
+                                .setIcon(R.drawable.ic_favorites)
+                                .setOnMenuItemClickListener {
+                                    toast("Favorites")
+                                    false
+                                }
                     }
                 }.lparams(matchParent, wrapContent) {
                     alignParentBottom()
