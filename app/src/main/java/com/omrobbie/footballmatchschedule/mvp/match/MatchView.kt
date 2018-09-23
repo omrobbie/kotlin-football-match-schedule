@@ -9,6 +9,5 @@ interface MatchView {
     fun hideLoading()
     fun showEmptyData()
     fun showLeagueList(data: LeagueResponse)
-    fun showEventListPrev(data: List<EventsItem>)
-    fun showEventListNext(data: List<EventsItem>)
+    fun showEventList(data: List<EventsItem>)
 }

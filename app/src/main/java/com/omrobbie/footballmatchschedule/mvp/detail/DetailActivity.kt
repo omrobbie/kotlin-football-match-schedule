@@ -1,12 +1,12 @@
 package com.omrobbie.footballmatchschedule.mvp.detail
 
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -36,21 +36,25 @@ class DetailActivity : AppCompatActivity(), DetailView {
     lateinit var imgHomeBadge: ImageView
     lateinit var imgAwayBadge: ImageView
 
+    lateinit var data: EventsItem
+
     var menuFavorites: Menu? = null
     var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val item = intent.getParcelableExtra<EventsItem>(INTENT_DETAIL)
+        data = intent.getParcelableExtra(INTENT_DETAIL)
 
-        setupLayout(item)
-        setupEnv(item)
+        setupLayout(data)
+        setupEnv(data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_favorites, menu)
         menuFavorites = menu
+        setFavorite()
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -62,6 +66,12 @@ class DetailActivity : AppCompatActivity(), DetailView {
             }
 
             mn_favorites -> {
+                if (isFavorite) {
+                    presenter.removeFavorites(ctx, data)
+                } else {
+                    presenter.addFavorites(ctx, data)
+                }
+
                 isFavorite = !isFavorite
                 setFavorite()
                 true
@@ -91,7 +101,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 .into(imgAwayBadge)
     }
 
-    fun setupLayout(item: EventsItem) {
+    fun setupLayout(data: EventsItem) {
         relativeLayout {
             dataView = scrollView {
                 linearLayout {
@@ -102,7 +112,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                     textView {
                         gravity = Gravity.CENTER
                         textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
-                        text = DateTime.getLongDate(item.dateEvent!!)
+                        text = DateTime.getLongDate(data.dateEvent!!)
                     }
 
                     // score
@@ -113,7 +123,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         textView {
                             textSize = 48f
                             setTypeface(null, Typeface.BOLD)
-                            text = item.intHomeScore
+                            text = data.intHomeScore
                         }
 
                         textView {
@@ -125,7 +135,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         textView {
                             textSize = 48f
                             setTypeface(null, Typeface.BOLD)
-                            text = item.intAwayScore
+                            text = data.intAwayScore
                         }
                     }
 
@@ -134,7 +144,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         linearLayout {
                             orientation = LinearLayout.VERTICAL
 
-                            imgHomeBadge = imageView() {
+                            imgHomeBadge = imageView {
                             }.lparams {
                                 width = dip(100)
                                 height = dip(100)
@@ -146,19 +156,19 @@ class DetailActivity : AppCompatActivity(), DetailView {
                                 textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
                                 textSize = 24f
                                 setTypeface(null, Typeface.BOLD)
-                                text = item.strHomeTeam
+                                text = data.strHomeTeam
                             }
 
                             textView {
                                 gravity = Gravity.CENTER
-                                text = item.strHomeFormation
+                                text = data.strHomeFormation
                             }
                         }.lparams(matchParent, wrapContent, 1f)
 
                         linearLayout {
                             orientation = LinearLayout.VERTICAL
 
-                            imgAwayBadge = imageView() {
+                            imgAwayBadge = imageView {
                             }.lparams {
                                 width = dip(100)
                                 height = dip(100)
@@ -170,12 +180,12 @@ class DetailActivity : AppCompatActivity(), DetailView {
                                 textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
                                 textSize = 24f
                                 setTypeface(null, Typeface.BOLD)
-                                text = item.strAwayTeam
+                                text = data.strAwayTeam
                             }
 
                             textView {
                                 gravity = Gravity.CENTER
-                                text = item.strAwayFormation
+                                text = data.strAwayFormation
                             }
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -191,7 +201,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(8)
 
                         textView {
-                            text = item.strHomeGoalDetails
+                            text = data.strHomeGoalDetails
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -203,7 +213,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.strAwayGoalDetails
+                            text = data.strAwayGoalDetails
                         }.lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -212,7 +222,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(16)
 
                         textView {
-                            text = item.intHomeShots
+                            text = data.intHomeShots
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -224,7 +234,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.intAwayShots
+                            text = data.intAwayShots
                         }.lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -248,7 +258,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(16)
 
                         textView {
-                            text = item.strHomeLineupGoalkeeper
+                            text = data.strHomeLineupGoalkeeper
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -260,7 +270,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.strAwayLineupGoalkeeper
+                            text = data.strAwayLineupGoalkeeper
                         }.lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -269,7 +279,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(16)
 
                         textView {
-                            text = item.strHomeLineupDefense
+                            text = data.strHomeLineupDefense
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -281,7 +291,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.strAwayLineupDefense
+                            text = data.strAwayLineupDefense
                         }.lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -290,7 +300,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(16)
 
                         textView {
-                            text = item.strHomeLineupMidfield
+                            text = data.strHomeLineupMidfield
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -302,7 +312,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.strAwayLineupMidfield
+                            text = data.strAwayLineupMidfield
                         }.lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -311,7 +321,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(16)
 
                         textView {
-                            text = item.strHomeLineupForward
+                            text = data.strHomeLineupForward
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -323,7 +333,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.strAwayLineupForward
+                            text = data.strAwayLineupForward
                         }.lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -332,7 +342,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                         topPadding = dip(16)
 
                         textView {
-                            text = item.strHomeLineupSubstitutes
+                            text = data.strHomeLineupSubstitutes
                         }.lparams(matchParent, wrapContent, 1f)
 
                         textView {
@@ -344,7 +354,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                         textView {
                             gravity = Gravity.RIGHT
-                            text = item.strAwayLineupSubstitutes
+                            text = data.strAwayLineupSubstitutes
                         }.lparams(matchParent, wrapContent, 1f)
                     }
                 }
@@ -361,9 +371,11 @@ class DetailActivity : AppCompatActivity(), DetailView {
         }
     }
 
-    fun setupEnv(item: EventsItem) {
+    fun setupEnv(data: EventsItem) {
         presenter = DetailPresenter(this)
-        presenter.getTeamDetails(item.idHomeTeam!!, item.idAwayTeam!!)
+        presenter.getTeamDetails(data.idHomeTeam!!, data.idAwayTeam!!)
+
+        isFavorite = presenter.isFavorite(ctx, data)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Match Detail"

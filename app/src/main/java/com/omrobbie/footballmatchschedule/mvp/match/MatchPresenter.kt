@@ -1,11 +1,17 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
+import android.content.Context
 import com.google.gson.Gson
+import com.omrobbie.footballmatchschedule.helper.database
 import com.omrobbie.footballmatchschedule.model.EventResponse
+import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.network.ApiRepository
 import com.omrobbie.footballmatchschedule.network.TheSportsDbApi
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class MatchPresenter(val view: MatchView) {
@@ -13,7 +19,7 @@ class MatchPresenter(val view: MatchView) {
     val apiRepository = ApiRepository()
     val gson = Gson()
 
-    var match = 1
+    var menu = 1
 
     fun getLeagueAll() {
         view.showLoading()
@@ -32,7 +38,7 @@ class MatchPresenter(val view: MatchView) {
     }
 
     fun getEventsPrev(id: String) {
-        match = 1
+        menu = 1
         view.showLoading()
 
         doAsync {
@@ -45,7 +51,7 @@ class MatchPresenter(val view: MatchView) {
                 view.hideLoading()
 
                 try {
-                    view.showEventListPrev(data.events!!)
+                    view.showEventList(data.events!!)
                 } catch (e: NullPointerException) {
                     view.showEmptyData()
                 }
@@ -54,7 +60,7 @@ class MatchPresenter(val view: MatchView) {
     }
 
     fun getEventsNext(id: String) {
-        match = 2
+        menu = 2
         view.showLoading()
 
         doAsync {
@@ -67,11 +73,33 @@ class MatchPresenter(val view: MatchView) {
                 view.hideLoading()
 
                 try {
-                    view.showEventListPrev(data.events!!)
+                    view.showEventList(data.events!!)
                 } catch (e: NullPointerException) {
                     view.showEmptyData()
                 }
             }
+        }
+    }
+
+    fun getFavoritesAll(context: Context) {
+        menu = 3
+        view.showLoading()
+
+        val data: MutableList<EventsItem> = mutableListOf()
+
+        context.database.use {
+            val favorites = select(EventsItem.TABLE_FAVORITES)
+                    .parseList(classParser<EventsItem>())
+
+            data.addAll(favorites)
+        }
+
+        view.hideLoading()
+
+        if (data.size > 0) {
+            view.showEventList(data)
+        } else {
+            view.showEmptyData()
         }
     }
 }

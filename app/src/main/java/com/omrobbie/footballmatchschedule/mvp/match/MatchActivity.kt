@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -17,6 +18,7 @@ import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.model.LeaguesItem
 import com.omrobbie.footballmatchschedule.mvp.detail.DetailActivity
 import com.omrobbie.footballmatchschedule.mvp.detail.INTENT_DETAIL
+import com.omrobbie.footballmatchschedule.utils.gone
 import com.omrobbie.footballmatchschedule.utils.invisible
 import com.omrobbie.footballmatchschedule.utils.visible
 import org.jetbrains.anko.*
@@ -28,6 +30,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
     lateinit var presenter: MatchPresenter
     lateinit var adapter: MatchAdapter
 
+    lateinit var spinnerLayout: LinearLayout
     lateinit var spinner: Spinner
     lateinit var progressBar: ProgressBar
     lateinit var recyclerView: RecyclerView
@@ -46,10 +49,19 @@ class MatchActivity : AppCompatActivity(), MatchView {
         setupEnv()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (presenter.menu == 3) presenter.getFavoritesAll(ctx)
+    }
+
     override fun showLoading() {
         progressBar.visible()
         recyclerView.invisible()
         emptyDataView.invisible()
+
+        if (presenter.menu == 3) spinnerLayout.gone()
+        else spinnerLayout.visible()
     }
 
     override fun hideLoading() {
@@ -73,7 +85,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 league = spinner.selectedItem as LeaguesItem
 
-                when (presenter.match) {
+                when (presenter.menu) {
                     1 -> presenter.getEventsPrev(league.idLeague!!)
                     2 -> presenter.getEventsNext(league.idLeague!!)
                 }
@@ -81,23 +93,15 @@ class MatchActivity : AppCompatActivity(), MatchView {
         }
     }
 
-    override fun showEventListPrev(data: List<EventsItem>) {
+    override fun showEventList(data: List<EventsItem>) {
         showEventListData(data)
-    }
-
-    override fun showEventListNext(data: List<EventsItem>) {
-        showEventListData(data)
-    }
-
-    fun itemClicked(item: EventsItem) {
-        startActivity<DetailActivity>(INTENT_DETAIL to item)
     }
 
     fun setupLayout() {
         linearLayout {
             orientation = LinearLayout.VERTICAL
 
-            linearLayout {
+            spinnerLayout = linearLayout {
                 orientation = LinearLayout.VERTICAL
                 backgroundColor = Color.LTGRAY
 
@@ -161,7 +165,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                         add("Favorites")
                                 .setIcon(R.drawable.ic_favorites)
                                 .setOnMenuItemClickListener {
-                                    toast("Favorites")
+                                    presenter.getFavoritesAll(ctx)
                                     false
                                 }
                     }
@@ -174,7 +178,9 @@ class MatchActivity : AppCompatActivity(), MatchView {
 
     fun setupEnv() {
         presenter = MatchPresenter(this)
-        adapter = MatchAdapter(events, { item: EventsItem -> itemClicked(item) })
+        adapter = MatchAdapter(events, {
+            startActivity<DetailActivity>(INTENT_DETAIL to it)
+        })
 
         presenter.getLeagueAll()
         recyclerView.adapter = adapter
