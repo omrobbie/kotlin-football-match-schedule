@@ -21,17 +21,17 @@ class DetailPresenter(val view: DetailView) {
     val apiRepository = ApiRepository()
     val gson = Gson()
 
-    fun getTeamDetails(idHomeTeam: String, idAwayTeam: String) {
+    fun getTeamDetails(idHomeTeam: String?, idAwayTeam: String?) {
         view.showLoading()
 
         doAsync {
             val dataHomeTeam = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getTeamDetails(idHomeTeam)),
+                    .doRequest(TheSportsDbApi.getTeamDetails(idHomeTeam.toString())),
                     TeamDetailResponse::class.java
             )
 
             val dataAwayTeam = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getTeamDetails(idAwayTeam)),
+                    .doRequest(TheSportsDbApi.getTeamDetails(idAwayTeam.toString())),
                     TeamDetailResponse::class.java
             )
 

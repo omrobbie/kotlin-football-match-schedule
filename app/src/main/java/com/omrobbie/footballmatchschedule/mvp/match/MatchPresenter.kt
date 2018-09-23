@@ -11,7 +11,6 @@ import com.omrobbie.footballmatchschedule.network.TheSportsDbApi
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class MatchPresenter(val view: MatchView) {

@@ -1,13 +1,10 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -20,12 +17,16 @@ import com.omrobbie.footballmatchschedule.mvp.detail.DetailActivity
 import com.omrobbie.footballmatchschedule.mvp.detail.INTENT_DETAIL
 import com.omrobbie.footballmatchschedule.utils.gone
 import com.omrobbie.footballmatchschedule.utils.invisible
+import com.omrobbie.footballmatchschedule.utils.progressBar
 import com.omrobbie.footballmatchschedule.utils.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.bottomNavigationView
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class MatchActivity : AppCompatActivity(), MatchView {
+
+    val ID_PROGRESSBAR = 1
+    val ID_BNV = 2
 
     lateinit var presenter: MatchPresenter
     lateinit var adapter: MatchAdapter
@@ -39,8 +40,6 @@ class MatchActivity : AppCompatActivity(), MatchView {
     lateinit var league: LeaguesItem
 
     var events: MutableList<EventsItem> = mutableListOf()
-
-    private val ID_BNV = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,12 +133,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                     topOf(ID_BNV)
                 }
 
-                progressBar = progressBar {
-                    indeterminateDrawable.setColorFilter(
-                            ContextCompat.getColor(ctx, R.color.colorPrimary),
-                            PorterDuff.Mode.SRC_IN
-                    )
-                }.lparams {
+                progressBar(ID_PROGRESSBAR).lparams {
                     centerInParent()
                 }
 
@@ -177,6 +171,8 @@ class MatchActivity : AppCompatActivity(), MatchView {
     }
 
     fun setupEnv() {
+        progressBar = find(ID_PROGRESSBAR)
+
         presenter = MatchPresenter(this)
         adapter = MatchAdapter(events, {
             startActivity<DetailActivity>(INTENT_DETAIL to it)

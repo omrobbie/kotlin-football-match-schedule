@@ -21,11 +21,11 @@ object DateTime {
         return result
     }
 
-    fun getShortDate(date: String): String {
-        return formatDate(date, "dd MMMM yyyy")
+    fun getShortDate(date: String?): String {
+        return formatDate(date.toString(), "dd MMMM yyyy")
     }
 
-    fun getLongDate(date: String): String {
-        return formatDate(date, "EEE, dd MMM yyyy")
+    fun getLongDate(date: String?): String {
+        return formatDate(date.toString(), "EEE, dd MMM yyyy")
     }
 }
