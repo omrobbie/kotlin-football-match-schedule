@@ -52,6 +52,10 @@ dependencies {
     // gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    // mockito
+    testImplementation 'org.mockito:mockito-core:2.22.0'
+    testImplementation 'org.mockito:mockito-inline:2.22.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
