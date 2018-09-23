@@ -15,9 +15,9 @@ Anda sudah mempelajari bagaimana cara menampilkan data dari sebuah API. Agar bis
 3. Di dalam halaman detail pertandingan, wajib menampilkan logo dari masing-masing tim.
 
 ## Preview Submission 3
-<img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview3.png" width=256/>&nbsp;
 <img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview4.png" width=256/>&nbsp;
 <img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview5.png" width=256/>&nbsp;
+<img src="https://github.com/omrobbie/kotlin-football-match-schedule/blob/master/screenshot/preview6.png" width=256/>&nbsp;
 
 ## Submission 3
 Anda telah mempelajari bagaimana cara menyimpan dan membaca data dengan SQLite. Nah, kini saatnya Anda menerapkannya pada aplikasi yang pernah Anda buat. Modifikasi aplikasi pada submission sebelumnya (Football Match Schedule) dengan menambahkan fitur untuk menyimpan jadwal pertandingan ke halaman Favorite. Agar bisa lanjut ke modul berikutnya, Anda harus mengirimkan proyek dengan beberapa kriteria yang sudah ditentukan.
