@@ -71,6 +71,20 @@ class MatchPresenterTest {
 
     @Test
     fun getEventsNext() {
+        val data: MutableList<EventsItem> = mutableListOf()
+        val response = EventResponse(data)
+        val id = "1234"
+
+        `when`(gson.fromJson(apiRepository
+                .doRequest(TheSportsDbApi.getLeagueNext(id)),
+                EventResponse::class.java)
+        ).thenReturn(response)
+
+        presenter.getEventsNext(id)
+
+        verify(view).showLoading()
+        verify(view).showEventList(data)
+        verify(view).hideLoading()
     }
 
     @Test

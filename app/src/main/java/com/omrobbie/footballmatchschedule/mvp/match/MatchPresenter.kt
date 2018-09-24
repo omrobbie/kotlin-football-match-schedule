@@ -13,8 +13,6 @@ import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class MatchPresenter(val view: MatchView, val apiRepository: ApiRepository, val gson: Gson, val context: CoroutineContextProvider = CoroutineContextProvider()) {
 
@@ -62,20 +60,20 @@ class MatchPresenter(val view: MatchView, val apiRepository: ApiRepository, val 
         menu = 2
         view.showLoading()
 
-        doAsync {
-            val data = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getLeagueNext(id)),
-                    EventResponse::class.java
-            )
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                        .doRequest(TheSportsDbApi.getLeagueNext(id)),
+                        EventResponse::class.java
+                )
+            }
 
-            uiThread {
-                view.hideLoading()
+            view.hideLoading()
 
-                try {
-                    view.showEventList(data.events!!)
-                } catch (e: NullPointerException) {
-                    view.showEmptyData()
-                }
+            try {
+                view.showEventList(data.await().events!!)
+            } catch (e: NullPointerException) {
+                view.showEmptyData()
             }
         }
     }
