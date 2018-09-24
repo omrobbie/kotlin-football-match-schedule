@@ -86,8 +86,4 @@ class MatchPresenterTest {
         verify(view).showEventList(data)
         verify(view).hideLoading()
     }
-
-    @Test
-    fun getFavoritesAll() {
-    }
 }
