@@ -1,6 +1,7 @@
 package com.omrobbie.footballmatchschedule.mvp.match
 
 import com.google.gson.Gson
+import com.omrobbie.footballmatchschedule.model.EventResponse
 import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.model.LeaguesItem
@@ -52,6 +53,20 @@ class MatchPresenterTest {
 
     @Test
     fun getEventsPrev() {
+        val data: MutableList<EventsItem> = mutableListOf()
+        val response = EventResponse(data)
+        val id = "1234"
+
+        `when`(gson.fromJson(apiRepository
+                .doRequest(TheSportsDbApi.getLeaguePrev(id)),
+                EventResponse::class.java)
+        ).thenReturn(response)
+
+        presenter.getEventsPrev(id)
+
+        verify(view).showLoading()
+        verify(view).showEventList(data)
+        verify(view).hideLoading()
     }
 
     @Test

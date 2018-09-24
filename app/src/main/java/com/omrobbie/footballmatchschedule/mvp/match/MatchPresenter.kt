@@ -40,20 +40,20 @@ class MatchPresenter(val view: MatchView, val apiRepository: ApiRepository, val 
         menu = 1
         view.showLoading()
 
-        doAsync {
-            val data = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getLeaguePrev(id)),
-                    EventResponse::class.java
-            )
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                        .doRequest(TheSportsDbApi.getLeaguePrev(id)),
+                        EventResponse::class.java
+                )
+            }
 
-            uiThread {
-                view.hideLoading()
+            view.hideLoading()
 
-                try {
-                    view.showEventList(data.events!!)
-                } catch (e: NullPointerException) {
-                    view.showEmptyData()
-                }
+            try {
+                view.showEventList(data.await().events!!)
+            } catch (e: NullPointerException) {
+                view.showEmptyData()
             }
         }
     }
