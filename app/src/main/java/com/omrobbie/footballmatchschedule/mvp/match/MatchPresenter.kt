@@ -8,31 +8,31 @@ import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.network.ApiRepository
 import com.omrobbie.footballmatchschedule.network.TheSportsDbApi
+import com.omrobbie.footballmatchschedule.utils.CoroutineContextProvider
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class MatchPresenter(val view: MatchView) {
-
-    val apiRepository = ApiRepository()
-    val gson = Gson()
+class MatchPresenter(val view: MatchView, val apiRepository: ApiRepository, val gson: Gson, val context: CoroutineContextProvider = CoroutineContextProvider()) {
 
     var menu = 1
 
     fun getLeagueAll() {
         view.showLoading()
 
-        doAsync {
-            val data = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getLeagueAll()),
-                    LeagueResponse::class.java
-            )
-
-            uiThread {
-                view.hideLoading()
-                view.showLeagueList(data)
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                        .doRequest(TheSportsDbApi.getLeagueAll()),
+                        LeagueResponse::class.java
+                )
             }
+
+            view.hideLoading()
+            view.showLeagueList(data.await())
         }
     }
 

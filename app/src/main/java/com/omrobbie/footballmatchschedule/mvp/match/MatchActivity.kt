@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import com.google.gson.Gson
 import com.omrobbie.footballmatchschedule.R
 import com.omrobbie.footballmatchschedule.adapter.MatchAdapter
 import com.omrobbie.footballmatchschedule.model.EventsItem
@@ -15,6 +16,7 @@ import com.omrobbie.footballmatchschedule.model.LeagueResponse
 import com.omrobbie.footballmatchschedule.model.LeaguesItem
 import com.omrobbie.footballmatchschedule.mvp.detail.DetailActivity
 import com.omrobbie.footballmatchschedule.mvp.detail.INTENT_DETAIL
+import com.omrobbie.footballmatchschedule.network.ApiRepository
 import com.omrobbie.footballmatchschedule.utils.gone
 import com.omrobbie.footballmatchschedule.utils.invisible
 import com.omrobbie.footballmatchschedule.utils.progressBar
@@ -173,7 +175,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
     fun setupEnv() {
         progressBar = find(ID_PROGRESSBAR)
 
-        presenter = MatchPresenter(this)
+        presenter = MatchPresenter(this, ApiRepository(), Gson())
         adapter = MatchAdapter(events, {
             startActivity<DetailActivity>(INTENT_DETAIL to it)
         })
