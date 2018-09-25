@@ -10,10 +10,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import com.google.gson.Gson
 import com.omrobbie.footballmatchschedule.R
 import com.omrobbie.footballmatchschedule.R.id.mn_favorites
 import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.TeamsItem
+import com.omrobbie.footballmatchschedule.network.ApiRepository
 import com.omrobbie.footballmatchschedule.utils.*
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
@@ -153,7 +155,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
     fun setupEnv(data: EventsItem) {
         progressBar = find(ID_PROGRESSBAR)
 
-        presenter = DetailPresenter(this)
+        presenter = DetailPresenter(this, ApiRepository(), Gson())
         presenter.getTeamDetails(data.idHomeTeam, data.idAwayTeam)
 
         isFavorite = presenter.isFavorite(ctx, data)

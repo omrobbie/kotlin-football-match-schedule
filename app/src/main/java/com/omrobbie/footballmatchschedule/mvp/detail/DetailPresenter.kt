@@ -8,37 +8,37 @@ import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.model.TeamDetailResponse
 import com.omrobbie.footballmatchschedule.network.ApiRepository
 import com.omrobbie.footballmatchschedule.network.TheSportsDbApi
+import com.omrobbie.footballmatchschedule.utils.CoroutineContextProvider
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
-class DetailPresenter(val view: DetailView) {
-
-    val apiRepository = ApiRepository()
-    val gson = Gson()
+class DetailPresenter(val view: DetailView, val apiRepository: ApiRepository, val gson: Gson, val context: CoroutineContextProvider = CoroutineContextProvider()) {
 
     fun getTeamDetails(idHomeTeam: String?, idAwayTeam: String?) {
         view.showLoading()
 
-        doAsync {
-            val dataHomeTeam = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getTeamDetails(idHomeTeam.toString())),
-                    TeamDetailResponse::class.java
-            )
-
-            val dataAwayTeam = gson.fromJson(apiRepository
-                    .doRequest(TheSportsDbApi.getTeamDetails(idAwayTeam.toString())),
-                    TeamDetailResponse::class.java
-            )
-
-            uiThread {
-                view.hideLoading()
-                view.showTeamDetails(dataHomeTeam.teams!!, dataAwayTeam.teams!!)
+        async(context.main) {
+            val dataHomeTeam = bg {
+                gson.fromJson(apiRepository
+                        .doRequest(TheSportsDbApi.getTeamDetails(idHomeTeam.toString())),
+                        TeamDetailResponse::class.java
+                )
             }
+
+            val dataAwayTeam = bg {
+                gson.fromJson(apiRepository
+                        .doRequest(TheSportsDbApi.getTeamDetails(idAwayTeam.toString())),
+                        TeamDetailResponse::class.java
+                )
+            }
+
+            view.hideLoading()
+            view.showTeamDetails(dataHomeTeam.await().teams!!, dataAwayTeam.await().teams!!)
         }
     }
 
