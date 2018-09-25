@@ -27,9 +27,6 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class MatchActivity : AppCompatActivity(), MatchView {
 
-    val ID_PROGRESSBAR = 1
-    val ID_BNV = 2
-
     lateinit var presenter: MatchPresenter
     lateinit var adapter: MatchAdapter
 
@@ -107,6 +104,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
                 backgroundColor = Color.LTGRAY
 
                 spinner = spinner {
+                    id = R.id.spinner
                     padding = dip(16)
                     minimumHeight = dip(80)
                 }
@@ -130,17 +128,18 @@ class MatchActivity : AppCompatActivity(), MatchView {
                 }
 
                 recyclerView = recyclerView {
+                    id = R.id.recycler_view
                     layoutManager = LinearLayoutManager(ctx)
                 }.lparams(matchParent, matchParent) {
-                    topOf(ID_BNV)
+                    topOf(R.id.bottom_navigation_view)
                 }
 
-                progressBar(ID_PROGRESSBAR).lparams {
+                progressBar(R.id.progress_bar).lparams {
                     centerInParent()
                 }
 
                 bottomNavigationView {
-                    id = ID_BNV
+                    id = R.id.bottom_navigation_view
                     backgroundColor = Color.WHITE
 
                     menu.apply {
@@ -173,7 +172,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
     }
 
     fun setupEnv() {
-        progressBar = find(ID_PROGRESSBAR)
+        progressBar = find(R.id.progress_bar)
 
         presenter = MatchPresenter(this, ApiRepository(), Gson())
         adapter = MatchAdapter(events, {

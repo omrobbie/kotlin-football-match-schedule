@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="progress_bar" type="id" />
+    <item name="bottom_navigation_view" type="id" />
+    <item name="spinner" type="id" />
+    <item name="recycler_view" type="id" />
+</resources>
