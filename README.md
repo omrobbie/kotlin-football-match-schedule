@@ -27,6 +27,14 @@ Anda telah mempelajari bagaimana cara menyimpan dan membaca data dengan SQLite. 
 2. Menyimpan jadwal pertandingan ke halaman Favorite.
 3. Menghapus jadwal pertandingan dari halaman Favorite.
 
+## Submission 4
+Anda telah belajar tentang pengujian aplikasi pada Kotlin. Nah, kini saatnya Anda menerapkannya pada aplikasi yang pernah Anda buat. Modifikasi aplikasi pada submission sebelumnya dengan menambahkan unit tests dan instrumentation tests pada beberapa fungsi yang terdapat pada proyek Anda.
+
+### Fitur yang harus ada pada aplikasi Anda adalah:
+Pertahankan semua fitur pada aplikasi sebelumnya.
+2. Menerapkan unit tests pada beberapa fungsi, misalnya fungsi untuk request data ke server.
+3. Menerapkan instrumentation tests dengan skenario yang Anda buat sendiri sesuai behaviour pada aplikasi.
+
 # Update
 Bagi teman-teman yang masih mengikuti kelas dari dicoding, [Kelas Kotlin Android Developer Expert](https://www.dicoding.com/academies/55 "klik untuk melihat kelas"). Silahkan gunakan source ini sebagai bahan referensi, tapi **TIDAK** untuk disalin secara utuh tanpa tau cara implementasinya.
 
