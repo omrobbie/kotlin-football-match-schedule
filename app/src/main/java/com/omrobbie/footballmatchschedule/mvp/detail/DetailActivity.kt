@@ -24,10 +24,6 @@ const val INTENT_DETAIL = "INTENT_DETAIL"
 
 class DetailActivity : AppCompatActivity(), DetailView {
 
-    val ID_PROGRESSBAR = 1
-    val ID_HOME_BADGE = 2
-    val ID_AWAY_BADGE = 3
-
     lateinit var presenter: DetailPresenter
 
     lateinit var progressBar: ProgressBar
@@ -89,12 +85,12 @@ class DetailActivity : AppCompatActivity(), DetailView {
     }
 
     override fun showTeamDetails(dataHomeTeam: List<TeamsItem>, dataAwayTeam: List<TeamsItem>) {
-        val imgHomeBadge = find<ImageView>(ID_HOME_BADGE)
+        val imgHomeBadge = find<ImageView>(R.id.home_badge)
         Picasso.get()
                 .load(dataHomeTeam[0].strTeamBadge)
                 .into(imgHomeBadge)
 
-        val imgAwayBadge = find<ImageView>(ID_AWAY_BADGE)
+        val imgAwayBadge = find<ImageView>(R.id.away_badge)
         Picasso.get()
                 .load(dataAwayTeam[0].strTeamBadge)
                 .into(imgAwayBadge)
@@ -121,10 +117,10 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
                     // team
                     linearLayout {
-                        layoutTeamBadge(ID_HOME_BADGE, data.strHomeTeam, data.strHomeFormation)
+                        layoutTeamBadge(R.id.home_badge, data.strHomeTeam, data.strHomeFormation)
                                 .lparams(matchParent, wrapContent, 1f)
 
-                        layoutTeamBadge(ID_AWAY_BADGE, data.strAwayTeam, data.strAwayFormation)
+                        layoutTeamBadge(R.id.away_badge, data.strAwayTeam, data.strAwayFormation)
                                 .lparams(matchParent, wrapContent, 1f)
                     }
 
@@ -146,14 +142,14 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 }
             }
 
-            progressBar(ID_PROGRESSBAR).lparams {
+            progressBar(R.id.progress_bar).lparams {
                 centerInParent()
             }
         }
     }
 
     fun setupEnv(data: EventsItem) {
-        progressBar = find(ID_PROGRESSBAR)
+        progressBar = find(R.id.progress_bar)
 
         presenter = DetailPresenter(this, ApiRepository(), Gson())
         presenter.getTeamDetails(data.idHomeTeam, data.idAwayTeam)

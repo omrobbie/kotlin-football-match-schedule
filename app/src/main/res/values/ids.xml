@@ -4,4 +4,6 @@
     <item name="bottom_navigation_view" type="id" />
     <item name="spinner" type="id" />
     <item name="recycler_view" type="id" />
+    <item name="home_badge" type="id" />
+    <item name="away_badge" type="id" />
 </resources>
