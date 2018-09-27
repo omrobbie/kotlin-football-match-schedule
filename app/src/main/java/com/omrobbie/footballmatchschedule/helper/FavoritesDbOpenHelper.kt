@@ -8,7 +8,7 @@ import org.jetbrains.anko.db.*
 class FavoritesDbOpenHelper(context: Context) : ManagedSQLiteOpenHelper(context, "Favorites.db", null, 1) {
 
     companion object {
-        var instance: FavoritesDbOpenHelper? = null
+        private var instance: FavoritesDbOpenHelper? = null
 
         @Synchronized
         fun getInstance(context: Context): FavoritesDbOpenHelper {

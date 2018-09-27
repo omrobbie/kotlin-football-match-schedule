@@ -24,15 +24,15 @@ const val INTENT_DETAIL = "INTENT_DETAIL"
 
 class DetailActivity : AppCompatActivity(), DetailView {
 
-    lateinit var presenter: DetailPresenter
+    private lateinit var presenter: DetailPresenter
 
-    lateinit var progressBar: ProgressBar
-    lateinit var dataView: ScrollView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var dataView: ScrollView
 
-    lateinit var data: EventsItem
+    private lateinit var data: EventsItem
 
-    var menuFavorites: Menu? = null
-    var isFavorite: Boolean = false
+    private var menuFavorites: Menu? = null
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +96,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 .into(imgAwayBadge)
     }
 
-    fun setupLayout(data: EventsItem) {
+    private fun setupLayout(data: EventsItem) {
         relativeLayout {
             dataView = scrollView {
                 linearLayout {
@@ -148,7 +148,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
         }
     }
 
-    fun setupEnv(data: EventsItem) {
+    private fun setupEnv(data: EventsItem) {
         progressBar = find(R.id.progress_bar)
 
         presenter = DetailPresenter(this, ApiRepository(), Gson())
@@ -160,7 +160,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
         supportActionBar?.title = "Match Detail"
     }
 
-    fun setFavorite() {
+    private fun setFavorite() {
         if (isFavorite) {
             menuFavorites?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites_yes)
         } else {

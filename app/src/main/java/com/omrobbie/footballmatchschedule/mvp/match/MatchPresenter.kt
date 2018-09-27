@@ -14,7 +14,10 @@ import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 
-class MatchPresenter(val view: MatchView, val apiRepository: ApiRepository, val gson: Gson, val context: CoroutineContextProvider = CoroutineContextProvider()) {
+class MatchPresenter(private val view: MatchView,
+                     private val apiRepository: ApiRepository,
+                     private val gson: Gson,
+                     private val context: CoroutineContextProvider = CoroutineContextProvider()) {
 
     var menu = 1
 

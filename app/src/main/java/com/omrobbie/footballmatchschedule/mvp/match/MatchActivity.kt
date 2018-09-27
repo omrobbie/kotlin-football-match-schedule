@@ -27,18 +27,18 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class MatchActivity : AppCompatActivity(), MatchView {
 
-    lateinit var presenter: MatchPresenter
-    lateinit var adapter: MatchAdapter
+    private lateinit var presenter: MatchPresenter
+    private lateinit var adapter: MatchAdapter
 
-    lateinit var spinnerLayout: LinearLayout
-    lateinit var spinner: Spinner
-    lateinit var progressBar: ProgressBar
-    lateinit var recyclerView: RecyclerView
-    lateinit var emptyDataView: LinearLayout
+    private lateinit var spinnerLayout: LinearLayout
+    private lateinit var spinner: Spinner
+    private lateinit var progressBar: ProgressBar
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyDataView: LinearLayout
 
-    lateinit var league: LeaguesItem
+    private lateinit var league: LeaguesItem
 
-    var events: MutableList<EventsItem> = mutableListOf()
+    private var events: MutableList<EventsItem> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +95,7 @@ class MatchActivity : AppCompatActivity(), MatchView {
         showEventListData(data)
     }
 
-    fun setupLayout() {
+    private fun setupLayout() {
         linearLayout {
             orientation = LinearLayout.VERTICAL
 
@@ -171,19 +171,19 @@ class MatchActivity : AppCompatActivity(), MatchView {
         }
     }
 
-    fun setupEnv() {
+    private fun setupEnv() {
         progressBar = find(R.id.progress_bar)
 
         presenter = MatchPresenter(this, ApiRepository(), Gson())
-        adapter = MatchAdapter(events, {
+        adapter = MatchAdapter(events) {
             startActivity<DetailActivity>(INTENT_DETAIL to it)
-        })
+        }
 
         presenter.getLeagueAll()
         recyclerView.adapter = adapter
     }
 
-    fun showEventListData(data: List<EventsItem>) {
+    private fun showEventListData(data: List<EventsItem>) {
         events.clear()
         events.addAll(data)
         adapter.notifyDataSetChanged()

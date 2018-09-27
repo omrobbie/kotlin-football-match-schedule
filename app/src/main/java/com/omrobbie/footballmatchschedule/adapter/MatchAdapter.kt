@@ -14,7 +14,8 @@ import com.omrobbie.footballmatchschedule.model.EventsItem
 import com.omrobbie.footballmatchschedule.utils.DateTime
 import org.jetbrains.anko.*
 
-class MatchAdapter(val items: List<EventsItem>, val clickListener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
+class MatchAdapter(private val items: List<EventsItem>,
+                   private val clickListener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ItemUI().createView(AnkoContext.create(parent.context, parent)))
 
@@ -26,29 +27,29 @@ class MatchAdapter(val items: List<EventsItem>, val clickListener: (EventsItem) 
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val match_date: TextView = view.findViewById(ID_DATE)
-        val match_home_team: TextView = view.findViewById(ID_HOME_TEAM)
-        val match_home_score: TextView = view.findViewById(ID_HOME_SCORE)
-        val match_away_team: TextView = view.findViewById(ID_AWAY_TEAM)
-        val match_away_score: TextView = view.findViewById(ID_AWAY_SCORE)
+        private val matchDate: TextView = view.findViewById(ID_DATE)
+        private val matchHomeTeam: TextView = view.findViewById(ID_HOME_TEAM)
+        private val matchHomeScore: TextView = view.findViewById(ID_HOME_SCORE)
+        private val matchAwayTeam: TextView = view.findViewById(ID_AWAY_TEAM)
+        private val matchAwayScore: TextView = view.findViewById(ID_AWAY_SCORE)
 
         fun bind(item: EventsItem, clickListener: (EventsItem) -> Unit) {
-            match_date.text = DateTime.getLongDate(item.dateEvent!!)
-            match_home_team.text = item.strHomeTeam
-            match_home_score.text = item.intHomeScore
-            match_away_team.text = item.strAwayTeam
-            match_away_score.text = item.intAwayScore
+            matchDate.text = DateTime.getLongDate(item.dateEvent!!)
+            matchHomeTeam.text = item.strHomeTeam
+            matchHomeScore.text = item.intHomeScore
+            matchAwayTeam.text = item.strAwayTeam
+            matchAwayScore.text = item.intAwayScore
 
             itemView.setOnClickListener { clickListener(item) }
         }
     }
 
     companion object {
-        val ID_DATE = 1
-        val ID_HOME_TEAM = 2
-        val ID_HOME_SCORE = 3
-        val ID_AWAY_TEAM = 4
-        val ID_AWAY_SCORE = 5
+        const val ID_DATE = 1
+        const val ID_HOME_TEAM = 2
+        const val ID_HOME_SCORE = 3
+        const val ID_AWAY_TEAM = 4
+        const val ID_AWAY_SCORE = 5
     }
 
     inner class ItemUI : AnkoComponent<ViewGroup> {

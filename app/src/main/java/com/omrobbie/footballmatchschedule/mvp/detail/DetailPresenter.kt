@@ -17,7 +17,10 @@ import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.toast
 
-class DetailPresenter(val view: DetailView, val apiRepository: ApiRepository, val gson: Gson, val context: CoroutineContextProvider = CoroutineContextProvider()) {
+class DetailPresenter(private val view: DetailView,
+                      private val apiRepository: ApiRepository,
+                      private val gson: Gson,
+                      private val context: CoroutineContextProvider = CoroutineContextProvider()) {
 
     fun getTeamDetails(idHomeTeam: String?, idAwayTeam: String?) {
         view.showLoading()
