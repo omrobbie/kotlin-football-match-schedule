@@ -33,7 +33,21 @@ class MatchActivityTest {
     }
 
     @Test
-    fun addFavorites() {
+    fun playWithBottomNavigationView() {
+        Thread.sleep(1000)
+        onView(withId(R.id.bnv_favorites)).perform(click())
+
+        Thread.sleep(1000)
+        onView(withId(R.id.bnv_match_next)).perform(click())
+
+        Thread.sleep(1000)
+        onView(withId(R.id.bnv_match_prev)).perform(click())
+
+        Thread.sleep(1000)
+    }
+
+    @Test
+    fun addRemoveFavorites() {
         onView(withId(R.id.spinner)).check(matches(isDisplayed()))
         onView(withId(R.id.spinner)).perform(click())
 
