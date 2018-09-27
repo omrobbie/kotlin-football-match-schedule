@@ -6,4 +6,7 @@
     <item name="recycler_view" type="id" />
     <item name="home_badge" type="id" />
     <item name="away_badge" type="id" />
+    <item name="bnv_match_prev" type="id" />
+    <item name="bnv_match_next" type="id" />
+    <item name="bnv_favorites" type="id" />
 </resources>

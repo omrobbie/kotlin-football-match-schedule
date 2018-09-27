@@ -15,6 +15,7 @@ import com.omrobbie.footballmatchschedule.utils.DateTime
 import org.jetbrains.anko.*
 
 class MatchAdapter(val items: List<EventsItem>, val clickListener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ItemUI().createView(AnkoContext.create(parent.context, parent)))
 
     override fun getItemCount() = items.size

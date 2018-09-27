@@ -2,6 +2,7 @@ package com.omrobbie.footballmatchschedule.mvp.match
 
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
@@ -14,6 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class MatchActivityTest {
+
     @Rule
     @JvmField
     var activityRule = ActivityTestRule(MatchActivity::class.java)
@@ -47,6 +49,9 @@ class MatchActivityTest {
 
         Thread.sleep(1000)
         Espresso.pressBack()
+
+        Thread.sleep(1000)
+        onView(withId(R.id.bnv_favorites)).perform(click())
 
         Thread.sleep(1000)
     }

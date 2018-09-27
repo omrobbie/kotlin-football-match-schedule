@@ -143,21 +143,21 @@ class MatchActivity : AppCompatActivity(), MatchView {
                     backgroundColor = Color.WHITE
 
                     menu.apply {
-                        add("Prev. Match")
+                        add(0, R.id.bnv_match_prev, 0, "Prev. Match")
                                 .setIcon(R.drawable.ic_trophy)
                                 .setOnMenuItemClickListener {
                                     presenter.getEventsPrev(league.idLeague!!)
                                     false
                                 }
 
-                        add("Next Match")
+                        add(0, R.id.bnv_match_next, 0, "Next Match")
                                 .setIcon(R.drawable.ic_event)
                                 .setOnMenuItemClickListener {
                                     presenter.getEventsNext(league.idLeague!!)
                                     false
                                 }
 
-                        add("Favorites")
+                        add(0, R.id.bnv_favorites, 0, "Favorites")
                                 .setIcon(R.drawable.ic_favorites)
                                 .setOnMenuItemClickListener {
                                     presenter.getFavoritesAll(ctx)
