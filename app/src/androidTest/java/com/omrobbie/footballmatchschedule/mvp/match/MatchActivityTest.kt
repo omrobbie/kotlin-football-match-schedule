@@ -11,7 +11,6 @@ import android.support.test.rule.ActivityTestRule
 import android.support.v7.widget.RecyclerView
 import com.omrobbie.footballmatchschedule.R
 import junit.framework.AssertionFailedError
-import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 
@@ -56,7 +55,7 @@ class MatchActivityTest {
         onView(withText("Spanish La Liga")).perform(click())
 
         Thread.sleep(1000)
-        onView(withText("Barcelona")).perform(click())
+        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(10, click()))
 
         Thread.sleep(1000)
         onView(withId(R.id.mn_favorites)).check(matches(isDisplayed()))
@@ -83,7 +82,7 @@ class MatchActivityTest {
         }
 
         Thread.sleep(1000)
-        onView(withText("Barcelona")).perform(click())
+        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         Thread.sleep(1000)
         onView(withId(R.id.mn_favorites)).check(matches(isDisplayed()))
