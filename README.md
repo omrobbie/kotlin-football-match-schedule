@@ -31,7 +31,7 @@ Anda telah mempelajari bagaimana cara menyimpan dan membaca data dengan SQLite. 
 Anda telah belajar tentang pengujian aplikasi pada Kotlin. Nah, kini saatnya Anda menerapkannya pada aplikasi yang pernah Anda buat. Modifikasi aplikasi pada submission sebelumnya dengan menambahkan unit tests dan instrumentation tests pada beberapa fungsi yang terdapat pada proyek Anda.
 
 ### Fitur yang harus ada pada aplikasi Anda adalah:
-Pertahankan semua fitur pada aplikasi sebelumnya.
+1. Pertahankan semua fitur pada aplikasi sebelumnya.
 2. Menerapkan unit tests pada beberapa fungsi, misalnya fungsi untuk request data ke server.
 3. Menerapkan instrumentation tests dengan skenario yang Anda buat sendiri sesuai behaviour pada aplikasi.
 
